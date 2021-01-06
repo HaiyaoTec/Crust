@@ -1,0 +1,28 @@
+{
+  "name": "crust",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "run": "tsc && node dist/index.js",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "htmlparser2": "^6.0.0",
+    "koa": "^2.13.0",
+    "koa-ejs": "^4.3.0",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.11.4",
+    "@types/koa-ejs": "^4.2.2",
+    "@types/request": "^2.48.5",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.1.2"
+  }
+}
