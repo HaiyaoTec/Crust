@@ -7,9 +7,9 @@ COPY template ./template
 COPY package.json ./
 COPY tsconfig.json ./
 
-ENV targetUrl="https://google.com" \
-	countdown="0" \
-	port="80"
+ENV TARGET="https://google.com" \
+	COUNTDOWN="0" \
+	PORT="80"
 
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo 'Asia/Shanghai' >/etc/timezone \
