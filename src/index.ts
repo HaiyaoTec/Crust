@@ -65,7 +65,7 @@ function parseHead(html: string):string{
 app.use(async function (ctx) {
     await ctx.render('index', {
         head: head,
-        target: targetUrl,
+        target: targetUrl+ctx.request.path+ctx.request.search,
         countdown: countdown
     });
 });
