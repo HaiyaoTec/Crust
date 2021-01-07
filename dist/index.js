@@ -4,9 +4,9 @@ import * as path from "path";
 import request from "request";
 import htmlparser2 from 'htmlparser2';
 var RuntimeError = WebAssembly.RuntimeError;
-const targetUrl = process.env.targetUrl ? process.env.targetUrl : "https://google.com";
-const countdown = process.env.countdown ? process.env.countdown : 0;
-const port = process.env.port ? process.env.port : 80;
+const targetUrl = process.env.TARGET ? process.env.TARGET : "https://baidu.com";
+const countdown = process.env.COUNTDOWN ? process.env.COUNTDOWN : 0;
+const port = process.env.PORT ? process.env.PORT : 80;
 let head;
 const app = new Koa();
 render(app, {

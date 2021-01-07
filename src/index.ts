@@ -6,7 +6,7 @@ import htmlparser2 from 'htmlparser2'
 import RuntimeError = WebAssembly.RuntimeError;
 
 
-const targetUrl = process.env.TARGET ? process.env.TARGET as string : "https://google.com"
+const targetUrl = process.env.TARGET ? process.env.TARGET as string : "https://baidu.com"
 const countdown = process.env.COUNTDOWN ? process.env.COUNTDOWN : 0
 const port = process.env.PORT ? process.env.PORT : 80
 

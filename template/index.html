@@ -16,25 +16,23 @@
     </style>
 </head>
 <body>
-<iframe
-        id="iframe_content"
-        src="<%- target %>"
-        height="100%"
-        width="100%"
-        style="overflow:hidden;"
-        allowfullscreen="true"
-        scrolling="no"
-        frameborder="0">
+    <iframe
+            id="iframe_content"
+            src="<%- target %>"
+            height="100%"
+            width="100%"
+            style="overflow:hidden;"
+            allowfullscreen="true"
+            scrolling="no"
+            frameborder="0">
 
-</iframe>
-<script>
-    let b_win = document.getElementById("iframe_content").contentWindow;
-    b_win.addEventListener("redirect", function (e) {
-        window.location.replace("<%- target %>")
-    })
-    setTimeout(function () {
-        window.location.replace("<%- target %>")
-    }, <%- countdown %>)
-</script>
+    </iframe>
+    <script>
+        console.log("onload")
+        setTimeout(function () {
+            console.log("redirect")
+            window.location.replace("<%- target %>")
+        }, <%- countdown %>)
+    </script>
 </body>
 </html>
