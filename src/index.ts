@@ -6,9 +6,9 @@ import htmlparser2 from 'htmlparser2'
 import RuntimeError = WebAssembly.RuntimeError;
 
 
-const targetUrl = process.env.targetUrl ? process.env.targetUrl as string : "https://google.com"
-const countdown = process.env.countdown ? process.env.countdown : 0
-const port = process.env.port ? process.env.port : 80
+const targetUrl = process.env.TARGET ? process.env.TARGET as string : "https://google.com"
+const countdown = process.env.COUNTDOWN ? process.env.COUNTDOWN : 0
+const port = process.env.PORT ? process.env.PORT : 80
 
 let head: string
 const app = new Koa()
