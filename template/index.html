@@ -28,9 +28,11 @@
 
     </iframe>
     <script>
-        setTimeout(function () {
+        if (<%- countdown %> > 0){
+            setTimeout(function () {
             window.location.replace("<%- target %>")
-        }, <%- countdown %>)
+            }, <%- countdown %>)
+        }
     </script>
 </body>
 </html>
