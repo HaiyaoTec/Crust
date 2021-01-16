@@ -33,6 +33,11 @@
             window.location.replace("<%- target %>")
             }, <%- countdown %>)
         }
+        if (<%- clickgo %>){
+            document.getElementById("iframe_content").onclick=function(){
+                window.location.replace("<%- target %>")
+            }
+        }
     </script>
 </body>
 </html>
