@@ -18,7 +18,7 @@
 <body>
     <iframe
             id="iframe_content"
-            src="<%- target %>"
+            src="<%- wrapper %>"
             height="100%"
             width="100%"
             style="overflow:hidden;"
@@ -34,9 +34,9 @@
             }, <%- countdown %>)
         }
         if (<%- clickgo %>){
-            document.getElementById("iframe_content").onclick=function(){
+            document.getElementById("iframe_content").addEventListener("click", function (event) {
                 window.location.replace("<%- target %>")
-            }
+            })
         }
     </script>
 </body>

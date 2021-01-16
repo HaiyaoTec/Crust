@@ -6,10 +6,10 @@ import htmlparser2 from 'htmlparser2'
 import dns from "dns"
 
 const targetUrl = process.env.TARGET ? process.env.TARGET as string : "https://baidu.com"
+const wrapperUrl = process.env.WRAPPER ? process.env.WRAPPER : targetUrl;
 const countdown = process.env.COUNTDOWN ? process.env.COUNTDOWN : 0
 const port = process.env.PORT ? process.env.PORT : 80
 
-let head: string
 const app = new Koa()
 
 render(app, {
@@ -21,8 +21,9 @@ render(app, {
 });
 
 app.use(async function (ctx) {
-    let requestHead = head
+    let requestHead
     let requestTarget = targetUrl
+    let requestWrapper = wrapperUrl
     let requestCountDown = countdown
     let requestClickGo = "false"
 
@@ -31,12 +32,13 @@ app.use(async function (ctx) {
             if (!err && addresses){
                 console.log(addresses)
                 let argMap = new Map<string,string>()
-                addresses[0][0].split("&").forEach(arg=>{
-                    let [key,value] = arg.split("=")
-                    argMap.set(key, value)
+                addresses[0][0].split(";").forEach(arg=>{
+                    let [key,...value] = arg.split("=")
+                    argMap.set(key, value.join("="))
                 })
                 console.log(argMap)
                 if (argMap.has("target")) requestTarget = argMap.get("target") as string
+                if (argMap.has("wrapper")) requestWrapper = argMap.get("wrapper") as string
                 if (argMap.has("countDown")) requestCountDown = argMap.get("countDown") as string
                 if (argMap.has("clickgo")) requestClickGo = argMap.get("clickgo") as string
             }
@@ -44,11 +46,12 @@ app.use(async function (ctx) {
         })
     })
 
-    requestHead = await parseHeadFor(requestTarget)
-    console.log(requestHead)
+    requestHead = await parseHeadFor(requestWrapper)
+
     await ctx.render('index', {
         head: requestHead,
         target: requestTarget+ctx.request.path+ctx.request.search,
+        wrapper: requestWrapper,
         countdown: requestCountDown,
         clickgo: requestClickGo
     });
