@@ -13,31 +13,42 @@
             height: 100%;
             overflow: hidden
         }
+
+        #clickDiv {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0
+        }
     </style>
 </head>
 <body>
-    <iframe
-            id="iframe_content"
-            src="<%- wrapper %>"
-            height="100%"
-            width="100%"
-            style="overflow:hidden;"
-            allowfullscreen="true"
-            scrolling="no"
-            frameborder="0">
+<iframe
+        id="iframe_content"
+        src="<%- wrapper %>"
+        height="100%"
+        width="100%"
+        style="overflow:hidden;"
+        allowfullscreen="true"
+        scrolling="no"
+        frameborder="0">
 
-    </iframe>
-    <script>
-        if (<%- countdown %> > 0){
-            setTimeout(function () {
+</iframe>
+<div id="clickDiv"></div>
+<script>
+    if (<%- countdown %> > 0){
+    setTimeout(function () {
+    window.location.replace("< % -target % > ")
+    },
+    <%- countdown %>)
+    }
+    if (< % -clickgo % >
+    )
+    {
+        document.getElementById("clickDiv").addEventListener("click", function (event) {
             window.location.replace("<%- target %>")
-            }, <%- countdown %>)
-        }
-        if (<%- clickgo %>){
-            document.getElementById("iframe_content").addEventListener("click", function (event) {
-                window.location.replace("<%- target %>")
-            })
-        }
-    </script>
+        })
+    }
+</script>
 </body>
 </html>
