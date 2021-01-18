@@ -53,7 +53,7 @@ app.use(async function (ctx) {
         target: requestTarget+ctx.request.path+ctx.request.search,
         wrapper: requestWrapper,
         countdown: requestCountDown,
-        clickgo: requestClickGo
+        clickgo: requestClickGo == 'true'
     });
 
 });
