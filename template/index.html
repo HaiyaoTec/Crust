@@ -34,7 +34,9 @@
         frameborder="0">
 
 </iframe>
-<div id="clickDiv"></div>
+<% if (clickgo) { %>
+    <div id="clickDiv"></div>
+<% } %>
 <script>
     if (<%- countdown %> > 0){
         setTimeout(function () {
