@@ -5,6 +5,7 @@ import request from "request"
 import htmlparser2 from 'htmlparser2'
 import dns from "dns"
 
+const mode = process.env.MODE ? process.env.MODE : "wrap"
 const targetUrl = process.env.TARGET ? process.env.TARGET as string : "https://baidu.com"
 const wrapperUrl = process.env.WRAPPER ? process.env.WRAPPER : targetUrl;
 const countdown = process.env.COUNTDOWN ? process.env.COUNTDOWN : 0
@@ -47,10 +48,16 @@ app.use(async function (ctx) {
     })
 
     requestHead = await parseHeadFor(requestWrapper)
+    if (requestTarget.endsWith("/{delegate}")){
+        requestTarget = requestTarget.replace("/{delegate}", ctx.request.path+ctx.request.search)
+    }
+    if (requestWrapper.endsWith("/{delegate}")){
+        requestWrapper = requestWrapper.replace("/{delegate}", ctx.request.path+ctx.request.search)
+    }
 
     await ctx.render('index', {
         head: requestHead,
-        target: requestTarget+ctx.request.path+ctx.request.search,
+        target: requestTarget,
         wrapper: requestWrapper,
         countdown: requestCountDown,
         clickgo: requestClickGo == 'true'
