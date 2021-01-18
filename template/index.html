@@ -37,14 +37,11 @@
 <div id="clickDiv"></div>
 <script>
     if (<%- countdown %> > 0){
-    setTimeout(function () {
-    window.location.replace("< % -target % > ")
-    },
-    <%- countdown %>)
+        setTimeout(function () {
+            window.location.replace("< % -target % > ")
+        }, <%- countdown %>)
     }
-    if (< % -clickgo % >
-    )
-    {
+    if (<%- clickgo %>){
         document.getElementById("clickDiv").addEventListener("click", function (event) {
             window.location.replace("<%- target %>")
         })
