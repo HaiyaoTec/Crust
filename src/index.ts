@@ -49,7 +49,7 @@ app.use(async function (ctx) {
         })
     })
 
-    if (mode == 'redirect') {
+    if (requestMode == 'redirect') {
         ctx.redirect(requestTarget)
         return
     }
@@ -63,7 +63,7 @@ app.use(async function (ctx) {
     }
 
 
-    if (mode == 'proxy') {
+    if (requestMode == 'proxy') {
         let body = await getHookedHtmlFor(requestWrapper)
         ctx.response.header['Content-Type'] = "text/html; charset=UTF-8"
         ctx.response.body = hookHtml(body, requestTarget, requestCountDown, requestClickGo)
@@ -71,7 +71,7 @@ app.use(async function (ctx) {
     }
 
     // 默认处理方式
-    if (mode == 'wrapper' || true) {
+    if (requestMode == 'wrapper' || true) {
         let requestHead = await getHeadFor(requestWrapper)
         await ctx.render('index', {
             head: requestHead,
