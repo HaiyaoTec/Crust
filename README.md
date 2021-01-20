@@ -1,9 +1,17 @@
 # Crust 网站加壳代理
-Crust 基于 `iframe` 来对任意网站套一层壳，以实现使用任意域名**匿名代理**任意网站的效果。
+Crust 可以使用多种方式对目标站点进行代理
+支持的模式
+### 重定向（redirect） 
+直接响应 302 到 target 地址
 
-Crust 还会自动拉取目标网址的基本信息填充自身. 保证自身 tdk, 三方分享与目标站点一致。
+### 壳代理（proxy）
+完全代理 `wrapper` 站点的请求。本质上就是一层反向代理。
+并且支持 `countdown` `clickgo` 2种方式跳转到 `target`
 
-Crust 还支持主动触发或一段时间后自动重定向到目标网址。
+### 壳包裹(wrapper)
+使用 iframe 包裹 `wrapper` 站点。
+并且支持 `countdown` `clickgo` 2种方式跳转到 `target`
+
 # Docker 安装
 ```shell
 docker pull jude95/crust
@@ -11,9 +19,9 @@ docker pull jude95/crust
 
 # 启动
 ```shell
-docker run -p 80:80 -e TARGET="https://google.com" jude95/crust
+docker run -p 80:80 jude95/crust
 ```
-代表对 `google.com` 进行代理.
+
 
 ### 环境变量
 + TARGET : 要代理的目标网址 eg: https://google.com

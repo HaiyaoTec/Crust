@@ -71,7 +71,7 @@ app.use(async function (ctx) {
     }
 
     // 默认处理方式
-    if (mode == 'wrapper' || mode == 'bridge' || true) {
+    if (mode == 'wrapper' || true) {
         let requestHead = await getHeadFor(requestWrapper)
         await ctx.render('index', {
             head: requestHead,
