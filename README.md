@@ -21,7 +21,7 @@ docker pull jude95/crust
 允许一套配置跟随一个域名，只需要在域名的txt记录上写入参数即可。`;` 分割参数
 
 比如欲解析域名 `sample.com`   
-先解析 A 记录：`@` -> `123.123.123.123`  
+先解析 CNAME 记录：`@` -> `crustdns.com`  
 再解析 TXT 记录：`crust` -> `mode=wrapper;wrapper=https://www.abcdefg.com;target=https://iamherer.com;countdown=5000`  
 这样服务就会自动将 `sample.com` 应用 TXT 记录中的配置
 
