@@ -17,6 +17,14 @@ Crust 可以使用多种方式对目标站点进行代理
 docker pull jude95/crust
 ```
 
+# 域名跟随配置
+允许一套配置跟随一个域名，只需要在域名的txt记录上写入参数即可。`;` 分割参数
+
+比如欲解析域名 `sample.com`   
+先解析 A 记录：`@` -> `123.123.123.123`  
+再解析 TXT 记录：`crust` -> `mode=wrapper;wrapper=https://www.abcdefg.com;target=https://iamherer.com;countdown=5000`  
+这样服务就会自动将 `sample.com` 应用 TXT 记录中的配置
+
 # 参数
 + **mode** ： 代理模式：`redirect` | `proxy` | `wrapper`
 + **wrapper** : 包裹或代理的站点URL，可以包含具体 path 与 query. `{delegate}` 用于表示访问壳站时的 path + query
@@ -44,10 +52,3 @@ clickgo=true
 ```
 
 
-# 域名跟随配置
-允许一套配置跟随一个域名，只需要在域名的txt记录上写入参数即可。`;` 分割参数
-
-比如欲解析域名 `sample.com`   
-先解析 A 记录：`@` -> `123.123.123.123`  
-再解析 TXT 记录：`crust` -> `mode=wrapper;wrapper=https://www.abcdefg.com;target=https://iamherer.com;countdown=5000`  
-这样服务就会自动将 `sample.com` 应用 TXT 记录中的配置

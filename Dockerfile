@@ -7,10 +7,6 @@ COPY template ./template
 COPY package.json ./
 COPY tsconfig.json ./
 
-ENV TARGET="https://google.com" \
-	COUNTDOWN="0" \
-	PORT="80"
-
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo 'Asia/Shanghai' >/etc/timezone \
     && npm set registry https://registry.npm.taobao.org/ \

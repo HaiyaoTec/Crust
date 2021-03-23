@@ -5,13 +5,6 @@ import request from "request"
 import htmlparser2 from 'htmlparser2'
 import dns from "dns"
 
-const mode = process.env.MODE ? process.env.MODE : "wrapper"
-const targetUrl = process.env.TARGET ? process.env.TARGET as string : "https://google.com"
-const wrapperUrl = process.env.WRAPPER ? process.env.WRAPPER : targetUrl;
-const countdown = process.env.COUNTDOWN ? process.env.COUNTDOWN : "0"
-const clickgo = process.env.COUNTDOWN ? process.env.CLICKGO : "true"
-const port = process.env.PORT ? process.env.PORT : 80
-
 const app = new Koa()
 
 render(app, {
@@ -24,11 +17,11 @@ render(app, {
 
 app.use(async function (ctx) {
 
-    let requestMode = mode
-    let requestTarget = targetUrl
-    let requestWrapper = wrapperUrl
-    let requestCountDown = countdown
-    let requestClickGo = clickgo == 'true'
+    let requestMode = 'redirect'
+    let requestTarget = 'https://google.com/'
+    let requestWrapper = 'https://google.com/'
+    let requestCountDown = `0`
+    let requestClickGo = true
 
     await new Promise<void>(resolve => {
         dns.resolveTxt("crust." + ctx.hostname, function (err, addresses) {
@@ -85,8 +78,8 @@ app.use(async function (ctx) {
 
 });
 
-app.listen(port)
-console.log("Start web server at http://localhost:" + port)
+app.listen(80)
+console.log("Start web server at http://localhost:" + 80)
 
 
 function getHookedHtmlFor(url: string): Promise<string> {
