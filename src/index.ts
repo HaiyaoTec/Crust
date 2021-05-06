@@ -22,6 +22,7 @@ app.use(async function (ctx) {
     let requestWrapper = 'https://google.com/'
     let requestCountDown = `0`
     let requestClickGo = true
+    let defaultPath = null
 
     await new Promise<void>(resolve => {
         dns.resolveTxt("crust." + ctx.hostname, function (err, addresses) {
@@ -37,29 +38,37 @@ app.use(async function (ctx) {
                 if (argMap.has("wrapper")) requestWrapper = argMap.get("wrapper") as string
                 if (argMap.has("countDown")) requestCountDown = argMap.get("countDown") as string
                 if (argMap.has("clickgo")) requestClickGo = (argMap.get("clickgo") as string == 'true')
+                if (argMap.has("defaultPath")) defaultPath = argMap.get("defaultPath") as string
             }
             resolve()
         })
     })
+
+    let replace = ctx.request.path + ctx.request.search
+    console.log(replace)
+    if (replace.length <= 1){
+        replace = defaultPath?defaultPath:""
+    }
+    if (requestTarget.endsWith("/{delegate}")) {
+        requestTarget = requestTarget.replace("/{delegate}", replace)
+    }
+    if (requestWrapper.endsWith("/{delegate}")) {
+        requestWrapper = requestWrapper.replace("/{delegate}", replace)
+    }
 
     if (requestMode == 'redirect') {
         ctx.redirect(requestTarget)
         return
     }
 
-
-    if (requestTarget.endsWith("/{delegate}")) {
-        requestTarget = requestTarget.replace("/{delegate}", ctx.request.path + ctx.request.search)
-    }
-    if (requestWrapper.endsWith("/{delegate}")) {
-        requestWrapper = requestWrapper.replace("/{delegate}", ctx.request.path + ctx.request.search)
-    }
-
-
     if (requestMode == 'proxy') {
-        let body = await getHookedHtmlFor(requestWrapper)
-        ctx.response.header['Content-Type'] = "text/html; charset=UTF-8"
-        ctx.response.body = hookHtml(body, requestTarget, requestCountDown, requestClickGo)
+        let resp = await getHookedHtmlFor(requestTarget)
+
+        for (const header in resp.header) {
+            ctx.set(header, resp.header[header])
+        }
+
+        ctx.response.body = resp.body
         return
     }
 
@@ -82,44 +91,13 @@ app.listen(80)
 console.log("Start web server at http://localhost:" + 80)
 
 
-function getHookedHtmlFor(url: string): Promise<string> {
+function getHookedHtmlFor(url: string): Promise<{ header: any, body: any }> {
     return new Promise(resolve => {
-        request(url, function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                console.log("Load Page Success")
-                resolve(body)
-            } else {
-                console.log("Load Page Failed")
-                resolve("")
-            }
+        request({url: url, encoding: null}, function (error, response, body) {
+            resolve({header: response.headers, body: body})
         })
     })
 }
-
-function hookHtml(html: string, target: string, countdown: string, clickgo: boolean): string {
-    let clickgoJs = "<script>\n" +
-        "    let clickDiv = document.createElement('div');\n" +
-        "    clickDiv.style=\"width: 100%;height: 100%;position: absolute;top: 0\"\n" +
-        "    clickDiv.addEventListener(\"click\", function (event) {\n" +
-        "        window.location.replace(\"" + target + "\")\n" +
-        "    })\n" +
-        "    document.body.append(clickDiv)\n" +
-        "</script>\n"
-    if (clickgo) {
-        html = html.replace("</body>", clickgoJs + "</body>")
-    }
-
-    let countdownJs = "<script>\n" +
-        "        setTimeout(function () {\n" +
-        "            window.location.replace(\"" + target + "\")\n" +
-        "        }, <" + countdown + ")\n" +
-        "</script>\n"
-    if (countdown != '0') {
-        html = html.replace("</body>", countdownJs + "</body>")
-    }
-    return html
-}
-
 
 function getHeadFor(url: string): Promise<string> {
     return new Promise(resolve => {
